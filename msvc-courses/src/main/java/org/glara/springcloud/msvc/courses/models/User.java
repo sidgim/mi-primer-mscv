@@ -1,28 +1,15 @@
-package org.glara.springcloud.msvc.users.models.entity;
+package org.glara.springcloud.msvc.courses.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotBlank
     private String name;
-    @Email
-    @NotEmpty
-    @Column(unique = true)
+
     private String email;
-    @NotBlank
-    @Size(min = 6, max = 15)
+
     private String password;
 
     public UUID getId() {
