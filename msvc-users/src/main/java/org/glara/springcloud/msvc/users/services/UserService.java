@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface UserService {
     List<User> listUser();
+    List<User> listAllByIds(Iterable<UUID> ids);
     User findUserById(UUID id) ;
     User saveUser(User user);
     User updateUser(UUID id, User user);

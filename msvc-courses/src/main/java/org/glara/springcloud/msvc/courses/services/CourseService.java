@@ -11,9 +11,12 @@ public interface CourseService {
 
     List<Course> listCourse();
     Course findCourseById(UUID id);
+    Course findUserByIdCourse(UUID id);
     Course saveCourse(Course course);
     Course updateCourse(UUID id, Course courseDetails);
     void deleteCourseById(UUID id);
+
+    void deleteCourseUserById(UUID id);
 
     Optional<User> assignUser(User user, UUID courseId);
 

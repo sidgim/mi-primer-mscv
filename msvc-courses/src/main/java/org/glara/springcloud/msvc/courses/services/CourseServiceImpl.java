@@ -42,6 +42,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Course findUserByIdCourse(UUID id) {
+        Course course = findCourseById(id);
+        List<UUID> ids = course.getCourseUsers().stream().map(CourseUser::getUserId).toList();
+        List<User> users = userClientRest.getUsersByCourse(ids);
+        course.setUsers(users);
+        return course;
+    }
+
+    @Override
     @Transactional
     public Course saveCourse(Course course) {
         return courseRepository.save(course);
@@ -60,6 +70,12 @@ public class CourseServiceImpl implements CourseService {
     public void deleteCourseById(UUID id) throws NotFoundException {
         findCourseById(id);
         courseRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseUserById(UUID id) {
+        courseRepository.deleteCourseUserById(id);
     }
 
     @Override

@@ -54,4 +54,9 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/user/usersBycourse")
+    public ResponseEntity<?> getUsersByCourse(@RequestBody List<UUID> ids) {
+        return ResponseEntity.ok(userService.listAllByIds(ids));
+    }
+
 }

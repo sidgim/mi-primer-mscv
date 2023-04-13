@@ -31,7 +31,7 @@ public class CourseController {
 
     @GetMapping("/course/{id}")
     public ResponseEntity<Course> findCourseByIdController(@PathVariable  UUID id) {
-        Course course = courseService.findCourseById(id);
+        Course course = courseService.findUserByIdCourse(id);
         return ResponseEntity.ok(course);
     }
 
@@ -53,6 +53,12 @@ public class CourseController {
     @DeleteMapping("/course/{id}")
     public ResponseEntity<Course> deleteCourseByIdController(@PathVariable  UUID id) {
         courseService.deleteCourseById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/course/delete-userCourse/{id}")
+    public ResponseEntity<Course> deleteCourseUserByIdController(@PathVariable  UUID id) {
+        courseService.deleteCourseUserById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -79,5 +85,7 @@ public class CourseController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(courseService.deleteUser(user, courseId));
     }
+
+
 
 }

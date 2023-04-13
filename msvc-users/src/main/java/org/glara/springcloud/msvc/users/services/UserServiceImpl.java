@@ -2,8 +2,10 @@ package org.glara.springcloud.msvc.users.services;
 
 import org.glara.springcloud.msvc.exception.BadRequestException;
 import org.glara.springcloud.msvc.exception.NotFoundException;
+import org.glara.springcloud.msvc.users.clients.CourseClientRest;
 import org.glara.springcloud.msvc.users.models.entity.User;
 import org.glara.springcloud.msvc.users.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +17,13 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
+    private CourseClientRest clientRest;
 
-    public UserServiceImpl(UserRepository repository) {
+
+    public UserServiceImpl(UserRepository repository, CourseClientRest clientRest) {
+
         this.repository = repository;
+        this.clientRest = clientRest;
     }
 
 
@@ -25,6 +31,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<User> listUser() {
         return (List<User>) repository.findAll();
+    }
+
+    @Override
+    public List<User> listAllByIds(Iterable<UUID> ids) {
+        return (List<User>) repository.findAllById(ids);
     }
 
     @Override
@@ -61,6 +72,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(UUID id) {
         findUserById(id);
         repository.deleteById(id);
+        clientRest.deleteCourseUserByIdController(id);
     }
 
     @Override
